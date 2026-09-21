@@ -1,9 +1,11 @@
 # Diete Coaching — app mobile
 
 Application mobile (iOS/Android) pour le suivi de coaching : les coachés
-suivent leur alimentation, leur poids et leurs séances d'entraînement, et
-échangent avec leur coach en messagerie. Le coach a une vue d'ensemble de
-tous ses coachés et peut leur créer des programmes.
+suivent leur alimentation, leur poids et leurs séances d'entraînement,
+réservent des rendez-vous et échangent avec leur coach en messagerie. Le
+coach a une vue d'ensemble de tous ses coachés, peut leur créer des
+programmes, publier des créneaux de rendez-vous et présenter ses formules
+tarifaires.
 
 ## Stack technique
 
@@ -30,6 +32,7 @@ production, utilisez [EAS Build](https://docs.expo.dev/build/introduction/).
 2. Dans l'éditeur SQL du projet, exécutez dans l'ordre :
    - `supabase/migrations/0001_init_schema.sql`
    - `supabase/migrations/0002_rls_policies.sql`
+   - `supabase/migrations/0003_sessions_and_pricing.sql`
 3. Activez Realtime sur la table `messages` (Database > Replication) pour que la messagerie soit instantanée.
 4. Récupérez `Project URL` et `anon public key` dans Settings > API et mettez-les dans `.env`.
 
@@ -41,6 +44,8 @@ production, utilisez [EAS Build](https://docs.expo.dev/build/introduction/).
 - `training_programs` / `program_exercises` : programmes créés par le coach pour un coaché.
 - `workout_logs` / `workout_set_logs` : séances réalisées par le coaché.
 - `conversations` / `messages` : messagerie coach ↔ coaché.
+- `sessions` : créneaux de rendez-vous publiés par le coach (`status = 'open'`) et réservés par un coaché (`status = 'booked'`), sur le principe d'un Calendly simplifié.
+- `pricing_plans` : formules tarifaires du coach, affichées en vitrine aux coachés (pas de paiement in-app pour l'instant).
 
 Toutes les tables sont protégées par des policies RLS : un coaché ne voit
 que ses propres données (et celles de son coach), un coach ne voit que les
@@ -73,7 +78,9 @@ supabase/
 
 ## Ce qui reste à faire
 
+- Paiement réel des formules (Stripe Checkout via une Edge Function Supabase + webhook) — actuellement les formules ne sont qu'une vitrine.
 - Photos de progression (upload vers Supabase Storage).
-- Notifications push (rappel de pesée, nouveau message) via `expo-notifications` + Edge Functions Supabase.
+- Notifications push (rappel de rendez-vous, nouveau message) via `expo-notifications` + Edge Functions Supabase.
 - Graphique d'évolution du poids (actuellement affiché en liste).
 - Un vrai flux d'invitation (email) plutôt qu'un code à partager.
+- Sélecteurs de date/heure natifs pour publier un créneau (actuellement des champs texte AAAA-MM-JJ / HH:mm).

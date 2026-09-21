@@ -26,6 +26,13 @@ export default function CoacheTabsLayout() {
         }}
       />
       <Tabs.Screen
+        name="rendezvous"
+        options={{
+          title: 'RDV',
+          tabBarIcon: ({ color, size }) => <Ionicons name="calendar-outline" size={size} color={color} />,
+        }}
+      />
+      <Tabs.Screen
         name="messages"
         options={{
           title: 'Messages',

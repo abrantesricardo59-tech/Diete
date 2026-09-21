@@ -101,3 +101,30 @@ export interface Message {
   body: string;
   created_at: string;
 }
+
+export type SessionStatus = 'open' | 'booked' | 'cancelled';
+
+export interface CoachingSession {
+  id: string;
+  coach_id: string;
+  coache_id: string | null;
+  starts_at: string;
+  ends_at: string;
+  status: SessionStatus;
+  notes: string | null;
+  created_at: string;
+  coache?: Profile;
+}
+
+export type PricingInterval = 'once' | 'monthly' | 'quarterly' | 'yearly';
+
+export interface PricingPlan {
+  id: string;
+  coach_id: string;
+  name: string;
+  price_cents: number;
+  currency: string;
+  interval: PricingInterval;
+  description: string | null;
+  created_at: string;
+}

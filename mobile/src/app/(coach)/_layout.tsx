@@ -12,6 +12,13 @@ export default function CoachTabsLayout() {
         }}
       />
       <Tabs.Screen
+        name="rendezvous"
+        options={{
+          title: 'Rendez-vous',
+          tabBarIcon: ({ color, size }) => <Ionicons name="calendar-outline" size={size} color={color} />,
+        }}
+      />
+      <Tabs.Screen
         name="messages"
         options={{
           title: 'Messages',
